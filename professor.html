@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Painel da Professora</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<h1>Painel da Professora</h1>
+
+<!-- TURMAS -->
+<h2>Criar Turma</h2>
+<input id="turmaNome" placeholder="Nome da turma">
+<button onclick="criarTurma()">Criar</button>
+
+<ul id="listaTurmas"></ul>
+
+<!-- DISCIPLINAS -->
+<h2>Criar Disciplina</h2>
+<input id="disciplinaNome" placeholder="Nome da disciplina">
+<button onclick="criarDisciplina()">Criar</button>
+
+<ul id="listaDisciplinas"></ul>
+
+<!-- ALUNOS -->
+<h2>Alunos</h2>
+<ul id="listaAlunos"></ul>
+
+<!-- DAR PONTOS -->
+<h2>Dar Pontos</h2>
+
+<input id="idAluno" placeholder="ID do aluno">
+<input id="disciplinaPontos" placeholder="Disciplina">
+<input id="pontos" placeholder="Pontos">
+
+<button onclick="darPontosUI()">Adicionar XP</button>
+
+<!-- DAR EMBLEMA -->
+<h2>Dar Emblema</h2>
+
+<input id="idAlunoEmb" placeholder="ID do aluno">
+<input id="nomeEmblema" placeholder="Emblema">
+
+<button onclick="darEmblemaUI()">Dar Emblema</button>
+
+<br><br>
+<button onclick="logout()">Sair</button>
+
+<script src="js/api.js"></script>
+<script src="js/professor.js"></script>
+
+<script>
+
+async function carregarTudo(){
+  const db = await carregarDB()
+
+  // TURMAS
+  const listaTurmas = document.getElementById("listaTurmas")
+  listaTurmas.innerHTML=""
+  db.turmas.forEach(t=>{
+    const li=document.createElement("li")
+    li.innerText = t.nome
+    listaTurmas.appendChild(li)
+  })
+
+  // DISCIPLINAS
+  const listaDisciplinas = document.getElementById("listaDisciplinas")
+  listaDisciplinas.innerHTML=""
+  db.disciplinas.forEach(d=>{
+    const li=document.createElement("li")
+    li.innerText = d.nome
+    listaDisciplinas.appendChild(li)
+  })
+
+  // ALUNOS
+  const listaAlunos = document.getElementById("listaAlunos")
+  listaAlunos.innerHTML=""
+  db.alunos.forEach(a=>{
+    const li=document.createElement("li")
+    li.innerText = "ID: " + a.id + " | XP: " + a.xp
+    listaAlunos.appendChild(li)
+  })
+}
+
+async function darPontosUI(){
+  const id = Number(document.getElementById("idAluno").value)
+  const disc = document.getElementById("disciplinaPontos").value
+  const pontos = Number(document.getElementById("pontos").value)
+
+  await darPontos(id, disc, pontos)
+  carregarTudo()
+}
+
+async function darEmblemaUI(){
+  const id = Number(document.getElementById("idAlunoEmb").value)
+  const emb = document.getElementById("nomeEmblema").value
+
+  await darEmblema(id, emb)
+  carregarTudo()
+}
+
+function logout(){
+  localStorage.removeItem("user")
+  window.location = "index.html"
+}
+
+carregarTudo()
+
+</script>
+
+</body>
+</html>
