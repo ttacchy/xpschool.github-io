@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Painel do Aluno</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<h1>Painel do Aluno</h1>
+
+<h2>Seu progresso</h2>
+<p><strong>XP:</strong> <span id="xp"></span></p>
+<p><strong>Nível:</strong> <span id="nivel"></span></p>
+
+<h2>Emblemas</h2>
+<ul id="emblemas"></ul>
+
+<h2>Disciplinas</h2>
+<ul id="disciplinas"></ul>
+
+<h2>Ranking Geral</h2>
+<table border="1">
+  <thead>
+    <tr>
+      <th>Posição</th>
+      <th>ID</th>
+      <th>XP</th>
+      <th>Nível</th>
+    </tr>
+  </thead>
+  <tbody id="ranking"></tbody>
+</table>
+
+<br>
+<button onclick="logout()">Sair</button>
+
+<script src="js/api.js"></script>
+<script src="js/aluno.js"></script>
+<script src="js/ranking.js"></script>
+
+<script>
+rankingGeral()
+</script>
+
+</body>
+</html>
